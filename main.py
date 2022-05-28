@@ -127,30 +127,41 @@ def extract_ip():
     return IP
 
 
-def authenticate(user_id, passwd):
+def main_display():
+    st.title("Blockchain Based Billing System")
+    st.write(
+        "Managing billing systems for businesses in India, implemented using latest technology like blockchain. Ensuring "
+        "security and reliability of  billing transactions between businesses and customers.​")
+    st.write("Each block can contain information about a bill.​")
+    st.write(
+        "Bill Information may include :​ Seller ID​, Customer ID​,Billing Items​, Amount​. A block may have information "
+        "about 'n' Bills.")
+
+
+def main_seller():
+    st.title('Seller')
+
+
+def main_customer():
+    st.title('Customer')
+
+
+def display(user_id='', passwd=''):
     check = authenticate_user(user_id, passwd)
     if check == -1:
-        with st.sidebar:
-            st.error('Invalid ID or Password')
+        if user_id != '' and passwd != '':
+            with st.sidebar:
+                st.error('Invalid ID or password')
+        main_display()
     elif check == 0:
-        st.title('Customer')
+        main_customer()
     elif check == 1:
-        st.write('Seller')
+        main_seller()
 
-
-st.title("Blockchain Based Billing System")
-st.write(
-    "Managing billing systems for businesses in India, implemented using latest technology like blockchain. Ensuring "
-    "security and reliability of  billing transactions between businesses and customers.​")
-st.write("Each block can contain information about a bill.​")
-st.write(
-    "Bill Information may include :​ Seller ID​, Customer ID​,Billing Items​, Amount​. A block may have information "
-    "about 'n' Bills.")
 
 with st.sidebar:
     usr_id = st.text_input("Enter your ID")
     password = st.text_input("Enter Your Password", type="password")
     loginBtn = st.button('Login')
 
-if loginBtn:
-    authenticate(usr_id, password)
+display(usr_id, password)
