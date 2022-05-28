@@ -108,10 +108,19 @@ class Blockchain:
             if f'http://{node}' != self.my_ip:
                 requests.get(f'http://{node}/chain/update')
 
-    def new_block(self, proof, previous_hash):
+    def new_block(self, proof, previous_hash, bill_id = None):
+        if bill_id is None:
+            bill_id = uuid()
+        # TODO: might change
+        amount = 0
+        for i in self.current_transactions:
+            for j in i.get('items', []):
+                amount += j[-1]
         block = {
             'index': len(self.chain) + 1,
             'timestamp': time(),
+            'bill_id': bill_id,
+            'amount': amount,
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
@@ -136,11 +145,8 @@ class Blockchain:
         return block
 
 # items = [[itemname, quan, price, amt]]
-    def new_transaction(self, seller_id, cust_id, items, total, bill_id=None):
-        if bill_id is None:
-            bill_id = uuid()
+    def new_transaction(self, seller_id, cust_id, items, total):
         self.current_transactions.append({
-            'bill_id': bill_id,
             'seller_id': seller_id,
             'cust_id': cust_id,
             'items': items,
