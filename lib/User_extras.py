@@ -9,7 +9,7 @@ class User:
 
     def commit(self):
         block = self.blockchain.commit_block()
-        print(f"New block forged...")
+        print(f"New block forged...")s
         print(f"Index: {block['index']}")
         print(f"Transactions: {block['transactions']}")
         print(f"Proof: {block['proof']}")

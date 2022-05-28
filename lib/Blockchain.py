@@ -6,6 +6,7 @@ import requests
 from random import randint, random
 
 from lib.Utilities import uuid, get_hash
+from main import MAIN_SERVER
 
 
 class Blockchain:
@@ -134,14 +135,16 @@ class Blockchain:
                 self.tries = 1
         return block
 
-    def new_transaction(self, user_id, work_info, completed=0, work_id=None):
-        if work_id is None:
-            work_id = uuid()
+# items = [[itemname, quan, price, amt]]
+    def new_transaction(self, seller_id, cust_id, items, total, bill_id=None):
+        if bill_id is None:
+            bill_id = uuid()
         self.current_transactions.append({
-            'user_id': user_id,
-            'work_id': work_id,
-            'work_info': work_info,
-            'completed': completed
+            'bill_id': bill_id,
+            'seller_id': seller_id,
+            'cust_id': cust_id,
+            'items': items,
+            'total': total
         })
         return self.last_block['index'] + 1
 
@@ -169,31 +172,11 @@ class Blockchain:
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
-    def get_work_info(self, work_id):
-        for transaction in self.current_transactions:
-            if transaction['work_id'] == work_id:
-                return transaction.get('work_info', '')
-        for block in self.chain:
-            for transaction in block.get('transactions', []):
-                if transaction['work_id'] == work_id:
-                    return transaction.get('work_info', '')
-        return None
-
-    def check_completed(self, word_id):
-        for transaction in self.current_transactions:
-            if transaction['work_id'] == word_id and transaction['completed'] == 1:
-                return True
-        for block in self.chain:
-            for transaction in block.get('transactions', []):
-                if transaction['work_id'] == word_id and transaction['completed'] == 1:
-                    return True
-        return False
-
     def commit_block(self):
         lock = False
         while not lock and len(self.chain) > 1:
-            if 'http://172.25.169.52:5000' != self.my_ip:
-                resp = requests.post('http://172.25.169.52:5000/getlock')
+            if MAIN_SERVER != self.my_ip:
+                resp = requests.post(f'{MAIN_SERVER}/getlock')
                 if resp.status_code == 200:
                     lock = True
                 else:
@@ -214,9 +197,10 @@ class Blockchain:
         previous_hash = self.hash(last_block)
         block = self.new_block(proof, previous_hash)
         while lock and len(self.chain) > 1:
-            if 'http://172.25.169.52:5000' != self.my_ip:
+            if MAIN_SERVER != self.my_ip:
                 print(self.my_ip)
-                resp = requests.post('http://172.25.169.52:5000/releaselock')
+                resp = requests.post(f'{MAIN_SERVER}/releaselock')
+
                 if resp.status_code == 201:
                     lock = False
             else:
