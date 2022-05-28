@@ -13,34 +13,6 @@ blockchain = Blockchain()
 # Initiating the Node
 app = Flask(__name__)
 node_thread = None
-st.title("Blockchain Based Billing System")
-with st.sidebar:
-    Id = st.number_input("Enter You ID", min_value=0, step=1, max_value=1)
-    password = st.text_input("Enter Your Password", type="password")
-
-
-def authenticate_user(usr_id, passwd):
-    if usr_id == 1:
-        return True
-    else:
-        return False
-
-
-if authenticate_user(Id, password):
-    st.header("Seller side")
-    view_history = st.button("View Previous bills")
-    make_bill = st.button("Generate a new bill")
-    # if make_bill:
-    #     make_bill function is called
-    # if view_history:
-    #     view_history function is called
-
-if authenticate_user(Id, password) is False:
-    st.header("Customer side")
-    customer_history = st.button("View Your Previous bills")
-    # if customer_history:
-    #     customer_history function is called
-
 
 MY_IP = 'http://'
 blockchain.register_node(MAIN_SERVER)
@@ -152,3 +124,31 @@ def extract_ip():
     finally:
         sock.close()
     return IP
+
+st.title("Blockchain Based Billing System")
+with st.sidebar:
+    Id = st.number_input("Enter You ID", min_value=0, step=1, max_value=1)
+    password = st.text_input("Enter Your Password", type="password")
+
+
+def authenticate_user(usr_id, passwd):
+    if usr_id == 1:
+        return True
+    else:
+        return False
+
+
+if authenticate_user(Id, password):
+    st.header("Seller side")
+    view_history = st.button("View Previous bills")
+    make_bill = st.button("Generate a new bill")
+    # if make_bill:
+    #     make_bill function is called
+    # if view_history:
+    #     view_history function is called
+
+if authenticate_user(Id, password) is False:
+    st.header("Customer side")
+    customer_history = st.button("View Your Previous bills")
+    # if customer_history:
+    #     customer_history function is called
