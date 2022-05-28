@@ -1,6 +1,7 @@
 import socket
 from flask import Flask, jsonify, request
 import requests
+import streamlit as st
 
 from lib.Blockchain import Blockchain
 
@@ -12,6 +13,34 @@ blockchain = Blockchain()
 # Initiating the Node
 app = Flask(__name__)
 node_thread = None
+st.title("Blockchain Based Billing System")
+with st.sidebar:
+    Id = st.number_input("Enter You ID", min_value=0, step=1, max_value=1)
+    password = st.text_input("Enter Your Password", type="password")
+
+
+def authenticate_user(usr_id, passwd):
+    if usr_id == 1:
+        return True
+    else:
+        return False
+
+
+if authenticate_user(Id, password):
+    st.header("Seller side")
+    view_history = st.button("View Previous bills")
+    make_bill = st.button("Generate a new bill")
+    # if make_bill:
+    #     make_bill function is called
+    # if view_history:
+    #     view_history function is called
+
+if authenticate_user(Id, password) is False:
+    st.header("Customer side")
+    customer_history = st.button("View Your Previous bills")
+    # if customer_history:
+    #     customer_history function is called
+
 
 MY_IP = 'http://'
 blockchain.register_node(MAIN_SERVER)
@@ -83,11 +112,11 @@ def register_nodes():
     }
     a = list(blockchain.nodes).copy()
     a = ["http://" + i for i in a]
-    if socket.gethostbyname(socket.gethostname()) == "172.25.169.52" and values.get('new') == 'True':
+    if socket.gethostbyname(socket.gethostname()) == " 172.25.169.52" and values.get('new') == 'True':
         for node in blockchain.nodes:
             requests.post(f"http://{node}/nodes/register", json={"nodes": a})
     return jsonify(response), 201
-
+#  192.168.43.163
 
 @app.route('/nodes/unregister', methods=['POST'])
 def unregister_nodes():
@@ -102,7 +131,7 @@ def unregister_nodes():
         'message': 'New nodes have been removed',
         'total_nodes': list(blockchain.nodes),
     }
-    if socket.gethostbyname(socket.gethostname()) == "172.25.169.52" and values.get('new') == 'True':
+    if socket.gethostbyname(socket.gethostname()) == " 172.25.169.52" and values.get('new') == 'True':
         for node in blockchain.nodes:
             if f'http://{node}' != MAIN_SERVER:
                 requests.post(f"http://{node}/nodes/unregister", json={"nodes": nodes})
@@ -114,12 +143,12 @@ def node_server(my_port):
 
 
 def extract_ip():
-    st = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
-        st.connect(('10.255.255.255', 1))
-        IP = st.getsockname()[0]
+        sock.connect(('10.255.255.255', 1))
+        IP = sock.getsockname()[0]
     except Exception:
         IP = '127.0.0.1'
     finally:
-        st.close()
+        sock.close()
     return IP
