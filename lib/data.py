@@ -1,1 +1,1 @@
-MAIN_SERVER = 'http://127.0.0.1:5000'
+MAIN_SERVER = 'http://172.25.169.52:5000'

@@ -24,3 +24,11 @@ class Seller:
                     d.append(amt)
                 bills.append(d)
         return bills
+
+    def new_bill(self, custID, items, total=0):
+        if total == 0:
+            for item in items:
+                total += item[-1]
+        self.blockchain.new_transaction(self.usr_id, custID, items, total)
+        block = self.blockchain.commit_block()
+        return block.get('bill_id', 'NA')
