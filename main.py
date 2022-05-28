@@ -6,7 +6,9 @@ from flask import Flask, jsonify, request
 
 from lib.Blockchain import Blockchain
 # Initiating the blockchain
+from lib.Customer import Customer
 from lib.DB import authenticate_user
+from lib.Seller import Seller
 from lib.data import MAIN_SERVER
 
 blockchain = Blockchain()
@@ -137,12 +139,23 @@ def main_display():
         "about 'n' Bills.")
 
 
-def main_seller():
+def main_seller(user_id):
+    seller = Seller(user_id, blockchain)
     st.header('Seller')
+    st.button('Generate new bills')
+    prevBillbtn = st.button('Show previous bills')
+    if prevBillbtn:
+        bills = seller.get_bills()
+        st.table(bills)
 
 
-def main_customer():
+def main_customer(user_id):
+    customer = Customer(user_id, blockchain)
     st.header('Customer')
+    prevBillbtn = st.button('Show previous bills')
+    if prevBillbtn:
+        bills = customer.get_bills()
+        st.table(bills)
 
 
 def display(user_id='', passwd=''):
@@ -153,9 +166,9 @@ def display(user_id='', passwd=''):
                 st.error('Invalid ID or password')
         main_display()
     elif check == 0:
-        main_customer()
+        main_customer(user_id)
     elif check == 1:
-        main_seller()
+        main_seller(user_id)
 
 
 st.title("Blockchain Based Billing System")
