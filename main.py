@@ -112,7 +112,7 @@ def register_nodes():
     }
     a = list(blockchain.nodes).copy()
     a = ["http://" + i for i in a]
-    if socket.gethostbyname(socket.gethostname()) == " 172.25.169.52" and values.get('new') == 'True':
+    if socket.gethostbyname(socket.gethostname()) == "172.25.169.52" and values.get('new') == 'True':
         for node in blockchain.nodes:
             requests.post(f"http://{node}/nodes/register", json={"nodes": a})
     return jsonify(response), 201
@@ -131,7 +131,7 @@ def unregister_nodes():
         'message': 'New nodes have been removed',
         'total_nodes': list(blockchain.nodes),
     }
-    if socket.gethostbyname(socket.gethostname()) == " 172.25.169.52" and values.get('new') == 'True':
+    if socket.gethostbyname(socket.gethostname()) == "172.25.169.52" and values.get('new') == 'True':
         for node in blockchain.nodes:
             if f'http://{node}' != MAIN_SERVER:
                 requests.post(f"http://{node}/nodes/unregister", json={"nodes": nodes})
