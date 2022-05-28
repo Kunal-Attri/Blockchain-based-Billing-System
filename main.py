@@ -128,7 +128,6 @@ def extract_ip():
 
 
 def main_display():
-    st.title("Blockchain Based Billing System")
     st.write(
         "Managing billing systems for businesses in India, implemented using latest technology like blockchain. Ensuring "
         "security and reliability of  billing transactions between businesses and customers.​")
@@ -139,11 +138,11 @@ def main_display():
 
 
 def main_seller():
-    st.title('Seller')
+    st.header('Seller')
 
 
 def main_customer():
-    st.title('Customer')
+    st.header('Customer')
 
 
 def display(user_id='', passwd=''):
@@ -159,6 +158,7 @@ def display(user_id='', passwd=''):
         main_seller()
 
 
+st.title("Blockchain Based Billing System")
 with st.sidebar:
     usr_id = st.text_input("Enter your ID")
     password = st.text_input("Enter Your Password", type="password")
