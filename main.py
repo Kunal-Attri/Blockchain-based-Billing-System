@@ -6,6 +6,7 @@ import streamlit as st
 from lib.Blockchain import Blockchain
 
 # Initiating the blockchain
+from lib.DB import authenticate_user, add_user
 from lib.data import MAIN_SERVER
 
 blockchain = Blockchain()
@@ -126,33 +127,30 @@ def extract_ip():
     return IP
 
 
+def authenticate(usr_id, passwd):
+    check = authenticate_user(usr_id, passwd)
+    if check == -1:
+        with st.sidebar:
+            st.write(st.error('Invalid ID or Password'))
+    elif check == 0:
+        st.write('Customer')
+    elif check == 1:
+        st.write('Seller')
+
+
 st.title("Blockchain Based Billing System")
-st.write("Managing billing systems for businesses in India, implemented using latest technology like blockchain. Ensuring security and reliability of  billing transactions between businesses and customers.​")
+st.write(
+    "Managing billing systems for businesses in India, implemented using latest technology like blockchain. Ensuring "
+    "security and reliability of  billing transactions between businesses and customers.​")
 st.write("Each block can contain information about a bill.​")
-st.write("Bill Information may include :​ Seller ID​, Customer ID​,Billing Items​, Amount​. A block may have information about 'n' Bills.")
+st.write(
+    "Bill Information may include :​ Seller ID​, Customer ID​,Billing Items​, Amount​. A block may have information "
+    "about 'n' Bills.")
 
 with st.sidebar:
-    Id = st.number_input("Enter You ID", min_value=0, step=1, max_value=1)
+    id = st.text_input("Enter your ID")
     password = st.text_input("Enter Your Password", type="password")
+    loginBtn = st.button('Login')
 
-def authenticate_user(usr_id, passwd):
-    if usr_id == 1:
-        return True
-    else:
-        return False
-
-
-if authenticate_user(Id, password):
-    st.header("Seller side")
-    view_history = st.button("View Previous bills")
-    make_bill = st.button("Generate a new bill")
-    # if make_bill:
-    #     make_bill function is called
-    # if view_history:
-    #     view_history function is called
-
-if authenticate_user(Id, password) is False:
-    st.header("Customer side")
-    customer_history = st.button("View Your Previous bills")
-    # if customer_history:
-    #     customer_history function is called
+if loginBtn:
+    authenticate(id, password)
