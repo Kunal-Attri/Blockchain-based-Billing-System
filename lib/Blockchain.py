@@ -6,7 +6,7 @@ import requests
 from random import randint, random
 
 from lib.Utilities import uuid, get_hash
-from main import MAIN_SERVER
+from lib.data import MAIN_SERVER
 
 
 class Blockchain:
@@ -108,19 +108,13 @@ class Blockchain:
             if f'http://{node}' != self.my_ip:
                 requests.get(f'http://{node}/chain/update')
 
-    def new_block(self, proof, previous_hash, bill_id = None):
+    def new_block(self, proof, previous_hash, bill_id=None):
         if bill_id is None:
             bill_id = uuid()
-        # TODO: might change
-        amount = 0
-        for i in self.current_transactions:
-            for j in i.get('items', []):
-                amount += j[-1]
         block = {
             'index': len(self.chain) + 1,
             'timestamp': time(),
             'bill_id': bill_id,
-            'amount': amount,
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),

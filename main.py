@@ -5,13 +5,14 @@ import requests
 from lib.Blockchain import Blockchain
 
 # Initiating the blockchain
+from lib.data import MAIN_SERVER
+
 blockchain = Blockchain()
 
 # Initiating the Node
 app = Flask(__name__)
 node_thread = None
 
-MAIN_SERVER = 'http://172.25.169.52:5000'
 MY_IP = 'http://'
 blockchain.register_node(MAIN_SERVER)
 
