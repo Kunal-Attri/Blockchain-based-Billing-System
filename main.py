@@ -88,7 +88,7 @@ def register_nodes():
         for node in blockchain.nodes:
             requests.post(f"http://{node}/nodes/register", json={"nodes": a})
     return jsonify(response), 201
-#  192.168.43.163
+
 
 @app.route('/nodes/unregister', methods=['POST'])
 def unregister_nodes():
@@ -124,6 +124,7 @@ def extract_ip():
     finally:
         sock.close()
     return IP
+
 
 st.title("Blockchain Based Billing System")
 with st.sidebar:
