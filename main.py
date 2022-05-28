@@ -1,14 +1,8 @@
 import socket
-from tabulate import tabulate
 from flask import Flask, jsonify, request
 import requests
-from threading import Thread
-from time import sleep
 
 from lib.Blockchain import Blockchain
-from lib.User_extras import user_main
-from lib.DB import authenticate_user, add_user
-from lib.Utilities import get_integer, uuid
 
 # Initiating the blockchain
 blockchain = Blockchain()
