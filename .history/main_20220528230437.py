@@ -127,14 +127,15 @@ def extract_ip():
 
 
 st.title("Blockchain Based Billing System")
-st.write("Managing billing systems for businesses in India, implemented using latest technology like blockchain. Ensuring security and reliability of  billing transactions between businesses and customers.​")
+st.write("Managing billing systems for business in India, implemented using latest technology like blockchain. Ensuring security and reliability of  billing transactions between businesses and customers.​")
 st.write("Each block can contain information about a bill.​")
-st.write("Bill Information may include :​ Seller ID​, Customer ID​,Billing Items​, Amount​. A block may have information about 'n' Bills.")
+st.write("Bill Information may include :​ Seller ID​, Customer ID​,Billing Items​, Amount​")
+st.write("A block may have information about 'n' Bills.")
 
 with st.sidebar:
     Id = st.number_input("Enter You ID", min_value=0, step=1, max_value=1)
     password = st.text_input("Enter Your Password", type="password")
-    st.button("Login")
+
 
 def authenticate_user(usr_id, passwd):
     if usr_id == 1:

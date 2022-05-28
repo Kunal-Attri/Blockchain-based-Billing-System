@@ -134,7 +134,7 @@ st.write("Bill Information may include :​ Seller ID​, Customer ID​,Billing
 with st.sidebar:
     Id = st.number_input("Enter You ID", min_value=0, step=1, max_value=1)
     password = st.text_input("Enter Your Password", type="password")
-    st.button("Login")
+
 
 def authenticate_user(usr_id, passwd):
     if usr_id == 1:
