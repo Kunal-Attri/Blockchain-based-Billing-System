@@ -1,12 +1,12 @@
 import socket
-from flask import Flask, jsonify, request
+
 import requests
 import streamlit as st
+from flask import Flask, jsonify, request
 
 from lib.Blockchain import Blockchain
-
 # Initiating the blockchain
-from lib.DB import authenticate_user, add_user
+from lib.DB import authenticate_user
 from lib.data import MAIN_SERVER
 
 blockchain = Blockchain()
@@ -127,13 +127,13 @@ def extract_ip():
     return IP
 
 
-def authenticate(usr_id, passwd):
-    check = authenticate_user(usr_id, passwd)
+def authenticate(user_id, passwd):
+    check = authenticate_user(user_id, passwd)
     if check == -1:
         with st.sidebar:
-            st.write(st.error('Invalid ID or Password'))
+            st.error('Invalid ID or Password')
     elif check == 0:
-        st.write('Customer')
+        st.title('Customer')
     elif check == 1:
         st.write('Seller')
 
@@ -148,9 +148,9 @@ st.write(
     "about 'n' Bills.")
 
 with st.sidebar:
-    id = st.text_input("Enter your ID")
+    usr_id = st.text_input("Enter your ID")
     password = st.text_input("Enter Your Password", type="password")
     loginBtn = st.button('Login')
 
 if loginBtn:
-    authenticate(id, password)
+    authenticate(usr_id, password)
