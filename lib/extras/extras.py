@@ -80,6 +80,20 @@ def consensus():
         }
     return jsonify(response), 200
 
+def get_bill_details(big_txt):
+    big_txt = big_txt.split(sep='\n')
+    name_list = []
+    quant_list = []
+    price_list = []
+    amount_list = []
+    for box in big_txt:
+        item_name, quantity, price = box.split(sep=',')
+        name_list.append(item_name.strip())
+        quant_list.append(int(quantity.strip()))
+        price_list.append(float(price.strip()))
+        amount_list.append(round(float(int(quantity.strip()) * float(price.strip())), 3))
+    return name_list, quant_list, price_list, amount_list
+
 
 
 while True:
