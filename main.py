@@ -8,11 +8,10 @@ import streamlit as st
 from flask import Flask, jsonify, request
 
 from lib.Blockchain import Blockchain
-# Initiating the blockchain
 from lib.Customer import Customer
 from lib.DB import authenticate_user
 from lib.Seller import Seller
-from lib.Utilities import get_integer
+
 from lib.data import MAIN_SERVER
 
 blockchain = Blockchain()
